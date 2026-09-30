@@ -71,6 +71,12 @@ _po, _pc = os.path.join(W, "person.out.json"), os.path.join(W, "cut.json")
 if os.path.exists(os.path.join(W, "person.json")):
     stale = not os.path.exists(_po) or os.path.getmtime(_po) < os.path.getmtime(_pc)
     rows.append(("27 طبقة الشخص", not stale, "قديمة — أعد 27_person_layer.py build" if stale else "محدّثة", ""))
+# الإضاءة الانتقائية (29): نفس الشي — الطبقة من cutz.mp4، ولو تغيّر بعدها تنزاح عن الفيديو
+_so, _sj = os.path.join(W, "spotlight.out.json"), os.path.join(W, "spotlight.json")
+if os.path.exists(_sj):
+    _cz = os.path.join(W, "cutz.mp4")
+    stale = not os.path.exists(_so) or os.path.getmtime(_so) < max(os.path.getmtime(_sj), os.path.getmtime(_cz) if os.path.exists(_cz) else 0)
+    rows.append(("29 الإضاءة الانتقائية", not stale, "قديمة — أعد 29_spotlight.py build" if stale else "محدّثة", ""))
 
 if OUT:
     rows.append(run("21 اللون كما دخل",  [sys.executable, f"{K}/21_color_check.py", W, OUT]))

@@ -16,6 +16,7 @@ Everything is code: **ffmpeg** cuts, **Whisper** transcribes with per-word timin
 | 🗒️ **Edit by script** | Delete a sentence from the transcript and it disappears from the video. Repeated sentences are flagged. |
 | 🎨 **Mixed styles in one video** | Paper-cut stop-motion, motion graphics, investigation-board collage, documentary, dark-board diagrams. Each moment uses whatever serves it, tied together by your brand. |
 | 🧍 **Speaker cutout** | Cuts you out of the frame to swap the background (a city photo, a video, your brand), or shrinks and moves you so graphics can sit beside you. With a 5-second empty-room shot, your real room stays behind you. |
+| 🔦 **Selective light and timed grading** | For a second or two, you (or an object in the frame) glow in your accent color while the rest of the frame darkens and desaturates. Also moving spotlight areas and short black-and-white or high-contrast beats. Only when you ask. |
 | 🌐 **Assets from the internet** | Searches free, licensed sources for photos, stock video, and icons. Builds one numbered contact sheet to choose from, downloads full resolution, removes backgrounds, and logs licenses and credits. |
 | 📄 **Paper-cut animation** | A code toolkit (torn edges, fiber grain, hard shadows, 12 fps stop-motion, back-to-front assembly), plus a 3-prompt workflow for AI-generated paper-cut clips. |
 | 🔊 **Sound effects, always** | 30+ synthesized sounds or your own library, placed on the exact word, with a governor that keeps them tasteful. |
@@ -92,6 +93,17 @@ Key-free sources: Wikimedia Commons, Openverse, and Iconify. You can add free Pe
 ```
 `bg` can be `plate` (your empty room), `theme` (your brand background), or any image or video file. The transition swaps the background first and then moves the person, so you never see two copies. Graphics can go **behind** the person via `export const BehindPerson` in `Scenes.tsx`. See `references/person-cutout.md`.
 
+### Selective light (`scripts/29_spotlight.py` + `Spotlight.tsx`)
+```json
+{"windows": [
+  {"a": 10.0, "b": 12.0, "target": "person", "pulse": true},
+  {"a": 13.0, "b": 15.0, "target": "area", "area": {"x":0.36,"y":0.45,"rx":0.2,"ry":0.09}},
+  {"a": 16.0, "b": 17.5, "target": "frame", "desat": 1.0, "contrast": 1.15, "in": 0},
+  {"a": 21.3, "b": 23.0, "target": "object", "point": [0.72, 0.64]}
+]}
+```
+`person` cuts you out frame by frame. `object` tracks whatever is under `point` using Apple Vision (macOS only). `area` is a soft elliptical spotlight that can move to `to`. `frame` is a timed grade of the whole frame with no target. The target is brightened and glows in your accent color, while the rest is dimmed and desaturated. It is drawn inside the video window with the same zoom, so it works full-screen or in a card. The color check skips these windows, because the change is intentional. See `references/spotlight.md`.
+
 ### Paper-cut (`styles/paper/kit/paper.tsx`)
 `Piece` · `PaperWord` · `PaperBG` · `assemble` · `PaperClip` · `stepT` · `muted`. Everything is stepped at 12 fps, so pieces slide, drop, and rotate like real stop-motion, never morph. For hero moments, `references/paper-motion.md` writes the three prompts (paper-cut image → 9-panel sheet → animation) to run in your own AI tools.
 
@@ -102,7 +114,7 @@ Key-free sources: Wikimedia Commons, Openverse, and Iconify. You can add free Pe
 ```
 SKILL.md                    the skill (Arabic, read by Claude)
 references/                 rules.md (130+ lessons) · scenes · sfx · onboarding · assets · person-cutout · paper-motion
-scripts/                    pipeline (00–28) · remotion-template/ · personmask / subjectcut (Vision) · checks
+scripts/                    pipeline (00–29) · remotion-template/ · personmask / subjectcut (Vision) · checks
 styles/
   simple/                   clean brand shapes
   collage/                  kit/vox · editorial · board + real paper textures, hand, Ruqaa font

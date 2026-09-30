@@ -15,7 +15,7 @@ sync_all(){
   # ملفات الهيكل: تُحدَّث دائماً ما عدا اللي يعدّله المستخدم
   for f in package.json tsconfig.json remotion.config.ts .gitignore README.md; do
     [ -f "$TPL/$f" ] && cp "$TPL/$f" "$R/$f"; done
-  for f in index.ts Root.tsx Ad.tsx theme.ts font.ts stage.ts util.tsx Chrome.tsx Captions.tsx Outro.tsx Guides.tsx Person.tsx; do
+  for f in index.ts Root.tsx Ad.tsx theme.ts font.ts stage.ts util.tsx Chrome.tsx Captions.tsx Outro.tsx Guides.tsx Person.tsx Spotlight.tsx; do
     cp "$TPL/src/$f" "$R/src/$f"; done
   # المشاهد: المصدر الوحيد <work>/Scenes.tsx (الفواحص تقرأه من هنا) — ينسخ للمشروع بكل تشغيل.
   #   أول مرة ينسخ القالب الفاضي (وضع «قص وكابشن بس» يبقى فاضي كذا).
@@ -34,6 +34,8 @@ sync_all(){
   [ -d "$W/assets" ] && find "$W/assets" -type f ! -path '*/_cand/*' ! -name '*.json' -exec cp {} "$R/public/" \;
   # طبقات قصّ الشخص (27_person_layer.py): w<N>.webm شفافة + plate_*.png
   [ -d "$W/person" ] && find "$W/person" -maxdepth 1 -type f \( -name 'w*.webm' -o -name 'plate_w.png' \) -exec cp {} "$R/public/" \;
+  # طبقات الإضاءة الانتقائية (29_spotlight.py): s<N>.webm شفافة
+  [ -d "$W/spot" ] && find "$W/spot" -maxdepth 1 -type f -name 's*.webm' -exec cp {} "$R/public/" \;
   echo "الأسلوب: $STYLE"
 
   cp "$W/caps.json" "$R/src/caps.json"
@@ -56,6 +58,7 @@ proj = {
   "guides": bool(rd("safe.json", {}).get("guides", False)),   # true → أدلّة المنطقة الآمنة بالاستوديو
   "rects": rd("rects.json", {}),
   "person": rd("person.out.json", {"windows": []}),            # قصّ الشخص — Person.tsx
+  "spotlight": rd("spotlight.out.json", {"windows": []}),      # الإضاءة الانتقائية — Spotlight.tsx
   "capMove": rd("capmove.json", []),                           # [[من, إلى, bottom]] — كابشن يتزحزح عن رقم مهم بلقطة                              # مستطيلات مخصّصة (من حارس الوجه)
 }
 json.dump(proj, open(os.path.join(R, "src", "project.json"), "w"), ensure_ascii=False, indent=1)

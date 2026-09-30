@@ -11,6 +11,7 @@
 | `src/Captions.tsx` | كروت الكابشن مع تظليل الكلمة المنطوقة |
 | `src/Outro.tsx` | كرت النهاية — نصوصه من project.json |
 | `src/Chrome.tsx` | شارة الحساب وشريط التقدّم |
+| `src/Spotlight.tsx` | الإضاءة الانتقائية — بيانات من spotlight.out.json (`29_spotlight.py`) |
 
 ⚠️ `public/video.mp4` لازم يكون موسوماً bt709 — مخرج `03_cut_zoom.py` كذا أصلاً.
 مخرج آيفون HDR الخام (bt2020/HLG) يطلع برتقالياً بالمتصفح.

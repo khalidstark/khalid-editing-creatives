@@ -76,6 +76,15 @@ ts = ts[:8]
 OFF = 0.0
 if "--offset" in sys.argv: OFF = float(sys.argv[sys.argv.index("--offset") + 1])
 if "--at" in sys.argv: ts = [float(x) for x in sys.argv[sys.argv.index("--at") + 1].split(",")]
+# ⛔ نوافذ الإضاءة الانتقائية (29_spotlight) تغيّر الصورة عمداً بطلبه — لا تُقاس
+_sp = os.path.join(W, "spotlight.out.json")
+SPOT = [(w["a"] - 0.1, w["b"] + 0.1) for w in json.load(open(_sp)).get("windows", [])] if os.path.exists(_sp) else []
+_ok = lambda t: not any(a <= t <= b for a, b in SPOT)
+if SPOT and not all(_ok(t) for t in ts):
+    _alt = [t for t in (dur * k / 12 for k in range(1, 12)) if _ok(t)][:5] if "--at" not in sys.argv else []
+    ts = [t for t in ts if _ok(t)] or _alt
+    if not ts:
+        print("⏭️ كل لحظات القياس داخل نوافذ الإضاءة الانتقائية (تغيير مقصود) — قِس بـ--at خارجها"); sys.exit(0)
 
 fails = []
 ps, po = probe(SRC), probe(OUT)

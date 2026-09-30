@@ -13,6 +13,7 @@ description: مونتاج فيديو عمودي 9:16 لصنّاع المحتوى
 > `references/scenes.md` (تصميم المشاهد) · `references/sfx.md` (الأصوات) · `references/generated-images.md` (الصور المولّدة) ·
 > `styles/<الأسلوب>/…` (دليل الأسلوب اللي اختاره) · `styles/IDEAS.md` (أفكار العوالم وكلمات بنترست) ·
 > `references/assets.md` (صور ومقاطع وأيقونات من النت) · `references/person-cutout.md` (قصّ الشخص وخلفيته وحجمه) ·
+> `references/spotlight.md` (إضاءة انتقائية: شي يضوي والباقي يغمق · تدرّج لوني مؤقت) ·
 > `references/paper-motion.md` (مقاطع ورق مولّدة) · `references/light-engine.md` (المحرّك الخفيف — بديل لو ريموشن ما اشتغل).
 
 ## مكانين لا تخلط بينهم
@@ -83,6 +84,7 @@ python3 -c "import sys;sys.path.insert(0,'scripts');import _paths;_paths.ensure(
 و`"noZoom": true` يطفي الزوم (غالباً للي يصوّر قريب). **الأفضل: `12_face_guard.js scan` يحسبها من وجهه.**
 
 **التدرّج اللوني (`grade`) مطفي** — لا تشغّله إلا بطلبه الصريح (القاعدة ٤).
+طلب «خلّي هالشي يضوي والباقي يغمق» أو «أبيض وأسود لحظة» أو لون مختلف لجزء؟ هذا مو `grade` — `references/spotlight.md` (`29_spotlight.py`).
 
 ## الخطوة 2 — خذ الفيديو
 
@@ -159,6 +161,7 @@ node scripts/12_face_guard.js <work> scan     # يكتشف وجهه ويكتب f
 - **الصور والمقاطع من النت — اجمعها بنفسك** (القاعدة ١٢٦ · `references/assets.md`): كل اسم ملموس بالسكربت مرشّح، ≥ أصل لكل ~١٠ ث.
   `28_assets.py search` ← ورقة وحدة ← `pick` (`--cut` بلا خلفية). حسب تفضيلاته (١٥ · ٨٥ · ٨٩) وقيوده على كل فريم (١١).
 - **قصّ الشخص** (خلفية بديلة · يصغر ويروح جنب · ينتقل لمكان ثاني): `references/person-cutout.md` — نافذة أو ثنتين، FULL بس.
+- **إضاءة انتقائية** (هو أو شي بالكادر يضوي ثانية-ثنتين والباقي يغمق · بقعة ضوء · أبيض وأسود لحظة) — **بطلبه بس**: `references/spotlight.md`.
 - **ورق مقصوص** (أسلوب `paper` أو لحظة بأي أسلوب): العُدّة `styles/paper/STYLE.md` بالكود، ومقاطع الورق المولّدة للحظة «الواو» `references/paper-motion.md`.
 - **أفكار المراجع تُقترح مكاناً مكاناً قبل التنفيذ** (القاعدة ٨٨).
 
@@ -169,6 +172,7 @@ bash scripts/04b_remotion.sh <work> studio    # افتحه له: http://localhos
 ```
 1. المشاهد بـ`<work>/Scenes.tsx` (ينسخ للمشروع مع كل `sync`) — كل مشهد `const A=…, B=…;` **بسطر لحاله** بأول الجسم، ويستورد أي عُدّة يبيها — تنخلط بنفس الملف (`./paper` · `./vox` · `./editorial` · `./board` · أدوات القالب).
    قصّ الشخص: `<work>/person.json` ← `27_person_layer.py <work> build` — والرسم ورا الشخص بـ`export const BehindPerson`.
+   الإضاءة الانتقائية (بطلبه): `<work>/spotlight.json` ← `29_spotlight.py <work> build`.
 2. `<work>/formats.json` — صيغة كل مشهد.
 3. `python3 scripts/18_stage_from_scenes.py <work>` — **يبني جدول النوافذ. لا تكتبه بيدك.**
 4. `python3 scripts/19_scene_audit.py <work>` — نوافذ فاضية · جمود · رسم على شعره. **يخرج 3 = لا ترندر.**
@@ -273,6 +277,7 @@ bash scripts/15_board.sh "<الاسم>" "<المسلَّم.mp4>"                
 | `09_srt.py` | ترجمة + نص الكابشن | ✓ | ✓ |
 | `10_script_edit.py` | شيل جملة من النص → تنشال من الفيديو | ✓ | ✓ |
 | `27_person_layer.py` | قصّ الشخص: خلفية بديلة · غرفته الفاضية · تصغير وتحريك (+ `Person.tsx`) | Vision + opencv | mediapipe + opencv |
+| `29_spotlight.py` | إضاءة انتقائية: هو أو شي يضوي والباقي يغمق · بقعة ضوء · تدرّج مؤقت (+ `Spotlight.tsx` · `objectmask.swift`) | Vision + opencv | mediapipe + opencv (بلا `object`) |
 | `28_assets.py` | صور · مقاطع · أيقونات من مصادر مجانية + ورقة اختيار + الرخص + قص الخلفية | curl | curl |
 | `11_behind_text.js` | الكلام يمرّ ورا الشخص بالكشيدة | Vision | mediapipe |
 | `12_face_guard.js` | يكتشف وجهه ويرفض أي نافذة تقصّه | Vision | mediapipe |
