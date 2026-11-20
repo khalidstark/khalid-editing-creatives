@@ -30,7 +30,7 @@ for i in range(1, len(v)):
     diff[i] = np.abs(v[i] - v[i-1]).mean()
 cuts = [i/FPS for i in range(1, len(v)) if diff[i] > 26]
 sp = np.abs(DX) + np.abs(DY)
-print(f"═══ الكاميرا")
+print("═══ الكاميرا")
 print(f"   القطعات {len(cuts)} → متوسط اللقطة {DUR/(len(cuts)+1):.1f} ث")
 print(f"   ساكنة تماماً {(sp < 0.2).mean()*100:.0f}٪ · متحرّكة {(sp > 0.5).mean()*100:.0f}٪")
 if (sp > 0.5).any():
@@ -57,7 +57,7 @@ ac = np.correlate(tot-tot.mean(), tot-tot.mean(), 'full')[len(tot)-1:]; ac /= ac
 lag = np.arange(len(ac))*HOP/SR; w = (lag > 0.3) & (lag < 2.5)
 near = [min(abs(np.array(on) - c)) for c in cuts] if cuts and on else []
 T = lo + mid + hi
-print(f"\n═══ الصوت")
+print("\n═══ الصوت")
 print(f"   الضربات {len(on)/(len(a)/SR)*60:.1f} بالدقيقة  (سقفنا ٢٠ لأن صوته يشغل المسار)")
 print(f"   الطيف: باص {lo/T*100:.0f}٪ · وسط {mid/T*100:.0f}٪ · حاد {hi/T*100:.0f}٪")
 print(f"   أقوى دورية {60/lag[w][np.argmax(ac[w])]:.0f} BPM بقوة {ac[w].max():.2f}"
