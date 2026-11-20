@@ -18,7 +18,7 @@ pick:   ينزّل الأصل بدقته الكاملة لـassets/<اسم>، و
 بيكسلز وبيكساباي (صور ومقاطع فيديو ستوك عمودية — أغنى مصدر للمقاطع).
 ⛔ لا تذكر أسماء المصادر للمستخدم — «مصادر مجانية موثوقة».
 """
-import sys, os, json, re, time, urllib.request, urllib.parse, subprocess, shutil, platform
+import sys, os, json, re, urllib.request, urllib.parse, subprocess, shutil, platform
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _paths
 
@@ -186,7 +186,7 @@ if CMD == "search":
         try:
             r = SOURCES[s](q, kind, per, portrait); got += r
             if r: notes.append(f"{s}:{len(r)}")
-        except Exception as e: notes.append(f"{s}:✗")
+        except Exception: notes.append(f"{s}:✗")
     # ترتيب: المقاطع/الصور العمودية الكبيرة أول، وتنويع بين المصادر
     def rank(it):
         w, h = it.get("w") or 0, it.get("h") or 0
