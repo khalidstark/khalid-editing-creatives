@@ -7,7 +7,7 @@
 mechanisms.json هو المصدر الوحيد للحقيقة. بعد كل تسليم: أضف الآليات الجديدة فيه
 (الرمز · الاسم · الدالة · «الشكل يقول ماذا») وأضف رموزها لقائمة المقطع، ثم شغّل هذا.
 """
-import json, os, sys, collections
+import os, sys, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _paths
 _paths.ensure()
