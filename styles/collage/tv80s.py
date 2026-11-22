@@ -1,7 +1,7 @@
 # معالجة «تلفزيون الثمانينات» للصور (الستايل أ المعتمد): تشبّع 0.62 · أسود مرفوع · دفء · انزياح ألوان 3 بكسل · نعومة خفيفة
 # python3 tv80s.py in out [--crop x0,y0,x1,y1] [--bw] [--w 1400] [--soft 0.6]
 # ⛔ لا يُطبَّق على فيديو المتحدث أبداً — الصور بس. والحبيبات وخطوط الشاشة تتحرّك بريموشن (مو محروقة بالصورة).
-import sys, argparse, numpy as np
+import argparse, numpy as np
 from PIL import Image, ImageFilter
 ap = argparse.ArgumentParser(); ap.add_argument('i'); ap.add_argument('o')
 ap.add_argument('--crop'); ap.add_argument('--bw', action='store_true'); ap.add_argument('--w', type=int, default=1400)
