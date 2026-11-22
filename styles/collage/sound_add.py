@@ -13,7 +13,7 @@
   ⛔ لا تنشر ملفات الأصوات نفسها لأحد — رخص المكتبات تسمح تستخدمها بمقاطعك بس.
 """
 import sys
-import subprocess, numpy as np, wave, os, sys
+import subprocess, numpy as np, wave, os
 SR=48000
 def load(p):
     r=subprocess.run(['ffmpeg','-v','error','-i',p,'-ac','2','-ar',str(SR),'-f','f32le','-'],capture_output=True)
