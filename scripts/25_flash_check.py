@@ -6,6 +6,7 @@
 (صارت فعلاً: ثلاث ومضات بنسخة مسلَّمة). الحل: <Img> أو Preload مخفي.
 الومضة المقصودة (فلاش كاميرا) تنكتب بـ<work>/flash_ok.json."""
 import sys, subprocess, numpy as np, os, json
+if len(sys.argv) < 3: sys.exit('usage: 25_flash_check.py <work> <المسلَّم.mp4>')
 V = sys.argv[2]
 # ومضات مقصودة (فلاشات كاميرات…) بـ<work>/flash_ok.json = [أوقات]
 OK = json.load(open(os.path.join(sys.argv[1], 'flash_ok.json'))) if os.path.exists(os.path.join(sys.argv[1], 'flash_ok.json')) else []
